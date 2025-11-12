@@ -5,6 +5,7 @@ from pydantic_settings import (
 from core.config_path import BasePath
 from typing import Literal
 
+
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
         env_file=f"{BasePath}/.env",
