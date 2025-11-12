@@ -23,6 +23,3 @@ class User(Base):
     email = Column(String, nullable=False)
     password = Column(Text, nullable=False)
     is_active = Column(Boolean, nullable=False)
-
-
-
