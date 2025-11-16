@@ -83,7 +83,7 @@ class AuthLoginWindow(QMainWindow):
         speech_label.setStyleSheet(Styles["speech_label"])
         speech_label.setMaximumWidth(1000)
         speech_layout.addWidget(speech_label)
-
+    
         self.right_layout.setStretch(1, 1)
 
     def _login_label(self):
@@ -157,3 +157,5 @@ class AuthLoginWindow(QMainWindow):
         sign_in_layout.addWidget(sign_in_button)
 
         self.right_layout.setStretch(6, 1)
+
+    
