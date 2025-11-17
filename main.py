@@ -14,6 +14,10 @@ class ApplicationManager:
         self.app = QApplication(sys.argv)
         self.login_window = AuthLoginWindow(self)
         self.register_window = None
+        self.main_window = None
+        self.token = None
+        self.websocket = None
+        self.controller = None
 
     def show_login_window(self):
         self.login_window.show()
@@ -29,5 +33,3 @@ class ApplicationManager:
     def run(self):
         self.show_login_window()
         sys.exit(self.app.exec_())
-
-    

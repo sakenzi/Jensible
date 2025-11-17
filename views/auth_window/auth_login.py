@@ -74,6 +74,7 @@ class AuthLoginWindow(QMainWindow):
         self._password_label()
         self._password_input()
         self._sign_in()
+        self._connect_register()
 
     def _welcome_speech(self):
         speech_widget = QWidget()
@@ -182,7 +183,7 @@ class AuthLoginWindow(QMainWindow):
 
         connect_register_button.clicked.connect(self.on_register_button_clicked)
 
-    def on_register_button_clicked(self):
+    def on_login_button_clicked(self):
         success, message = self.controller.handle_login(
             self.email_input.text(),
             self.password_input.text()
