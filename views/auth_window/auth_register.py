@@ -19,6 +19,7 @@ import sys
 import os
 from resources.styles.auth_login_components import Styles
 from resources.images.auth_login_images.auth_login_images import IMAGE
+from controllers.auth_controller import AuthWindowController
 
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
@@ -28,6 +29,9 @@ class AuthRegisterWindow(QMainWindow):
         super().__init__()
         self.app_manager = app_manager
         self._setup_window()
+        self._setup_layouts()
+        self._setup_auth_login_panel()
+        self.controller = AuthWindowController()
 
     def _setup_window(self):
         self.setWindowTitle("Jensible (Register)")
@@ -167,3 +171,21 @@ class AuthRegisterWindow(QMainWindow):
         password_input_layout.addWidget(password_input)
 
         self.right_layout.setStretch(7, 0)
+
+    def _sign_up(self):
+        sign_up_widget = QWidget()
+        sign_up_widget.setStyleSheet(Styles['emblem_widget'])
+        sign_up_layout = QHBoxLayout()
+        sign_up_widget.setLayout(sign_up_layout)
+        self.right_layout.addWidget(sign_up_widget)
+
+        sign_up_button = QPushButton("Зарегистрироваться")
+        sign_up_button.setStyleSheet(Styles['sign_in_button'])
+        sign_up_layout.addWidget(sign_up_button)
+
+        self.right_layout.setStretch(8, 1)
+    
+        sign_up_button.clicked.connect(self.on_register_button_clicked)
+
+    def on_register_button_clicked(self):
+        succes, message = self.controller

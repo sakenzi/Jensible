@@ -22,6 +22,8 @@ import os
 from resources.styles.auth_login_components import Styles
 from resources.icons.auth_login_icons import ICONS
 from resources.images.auth_login_images.auth_login_images import IMAGE
+from views.auth_window.auth_register import AuthRegisterWindow
+from controllers.auth_controller import AuthWindowController
 
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
@@ -34,6 +36,7 @@ class AuthLoginWindow(QMainWindow):
         self._setup_layouts()
         self._setup_phone_panel()
         self._setup_auth_login_panel()
+        self.controller = AuthWindowController()
 
     def _setup_window(self):
         self.setWindowTitle("Jensible (Login)")
@@ -158,4 +161,38 @@ class AuthLoginWindow(QMainWindow):
 
         self.right_layout.setStretch(6, 1)
 
-    
+        sign_in_button.clicked.connect(self.on_login_button_clicked)
+
+    def _connect_register(self):
+        connect_register_widget = QWidget()
+        connect_register_widget.setStyleSheet(Styles["emblem_widget"])
+        connect_register_layout = QHBoxLayout()
+        connect_register_widget.setLayout(connect_register_layout)
+        self.right_layout.addWidget(connect_register_widget)
+
+        connect_register_label = QLabel("У вас нет учетной записи?")
+        connect_register_label.setStyleSheet(Styles["connect_register_label"])
+        connect_register_layout.addWidget(connect_register_label)
+
+        connect_register_button = QPushButton("Зарегистрируйтесь прямо сейчас")
+        connect_register_button.setStyleSheet(Styles["connect_register_button"])
+        connect_register_layout.addWidget(connect_register_button)
+
+        self.right_layout.setStretch(7, 2)
+
+        connect_register_button.clicked.connect(self.on_register_button_clicked)
+
+    def on_register_button_clicked(self):
+        success, message = self.controller.handle_login(
+            self.email_input.text(),
+            self.password_input.text()
+        )
+        if success:
+            token = self.controller.get_token()
+            self.app_manager.set_token(token)
+            self.app_manager.show_main_show()
+            self.hide()
+
+    def on_register_button_clicked(self):
+        self.app_manager.show_register_window()
+        self.hide()
