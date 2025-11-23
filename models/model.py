@@ -20,7 +20,8 @@ class User(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     full_name = Column(String, nullable=False)
-    email = Column(String, nullable=False)
+    email = Column(String, unique=True, nullable=False)
     password = Column(Text, nullable=False)
-    is_active = Column(Boolean, nullable=False)
+    is_active = Column(Boolean, default=False, nullable=False)
+    email_verified_at = Column(DateTime, nullable=False)
     
