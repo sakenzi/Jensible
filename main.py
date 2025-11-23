@@ -18,4 +18,4 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(main_route, prefix="/api")
+app.include_router(main_route, prefix="/api/v1")
