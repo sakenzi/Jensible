@@ -1,39 +1,86 @@
-# 🚀 Jensible
+# Схема базы данных (ERD)
 
-**Jensible** — интеллектуальная платформа для автоматизации DevOps-процессов, объединяющая возможности **Jenkins** и **Ansible** в единой CI/CD-экосистеме.
+Ниже представлена упрощённая ER-диаграмма сущностей и связи между ними.
 
-Система позволяет проектировать, запускать и оптимизировать пайплайны — от сборки кода до деплоя инфраструктуры — с минимальным участием человека.
+```mermaid
+erDiagram
+    USERS ||--o{ PIPELINES : creates
+    USERS {
+        int id PK
+        string email
+        string password
+        string role
+    }
 
----
+    PIPELINES ||--o{ PIPELINE_RUNS : has
+    PIPELINES {
+        int id PK
+        string name
+        json config
+    }
 
-## 💡 Основные возможности
+    PIPELINE_RUNS {
+        int id PK
+        int pipeline_id FK
+        string status
+        text logs
+    }
 
-- 🧩 **Визуальный конструктор пайплайнов**  
-  Создание CI/CD-цепочек через drag-and-drop интерфейс с автоматической генерацией `Jenkinsfile`.
+    DOCKER_HOSTS ||--o{ DOCKER_CONTAINERS : "hosts"
+    DOCKER_HOSTS {
+        int id PK
+        string name
+        string url
+        string token
+    }
 
-- ⚙️ **Интеграция с Ansible**  
-  Автоматическое выполнение `playbook`-ов для настройки и развертывания окружений.
+    DOCKER_CONTAINERS {
+        int id PK
+        int host_id FK
+        string name
+        string image
+    }
 
-- 🤖 **Интеллектуальные рекомендации**  
-  Анализ типа проекта (Python, Node.js, Java и т.д.) и автоматическое предложение оптимальных этапов пайплайна.
+    K8S_CLUSTERS ||--o{ K8S_DEPLOYMENTS : "manages"
+    K8S_CLUSTERS {
+        int id PK
+        string name
+        text kubeconfig
+        string status
+    }
 
-- 📈 **Аналитика и оптимизация**  
-  Сбор и анализ метрик Jenkins: время сборки, количество ошибок, стабильность деплоя.
+    K8S_DEPLOYMENTS {
+        int id PK
+        int cluster_id FK
+        string name
+        text yaml
+    }
 
-- 💬 **ChatOps-интеграция (опционально)**  
-  Управление пайплайнами через Telegram/Slack — команды вроде “Deploy staging” или “Run tests”.
+    ANSIBLE_PLAYBOOKS ||--o{ ANSIBLE_RUNS : executes
+    ANSIBLE_PLAYBOOKS {
+        int id PK
+        string name
+        string path
+        int inventory_id FK
+    }
 
----
+    ANSIBLE_RUNS {
+        int id PK
+        int playbook_id FK
+        string status
+        text log
+    }
 
-## 🏗️ Архитектура проекта
+    LOGS {
+        int id PK
+        string type
+        int reference_id
+        text text
+    }
 
-```plaintext
-Frontend (React + Flowchart.js/ Vue.js)
-        ↓
-Backend (FastAPI / Spring)
-        ↓
-CI/CD Core (Jenkins REST API)
-        ↓
-Infrastructure Automation (Ansible + Playbooks)
-        ↓
-Monitoring & Analytics (Grafana / Prometheus)
+    INTEGRATIONS {
+        int id PK
+        string type
+        json config
+    }
+
