@@ -11,6 +11,7 @@ from sqlalchemy import (
     DECIMAL,
     Date,
 )
+from datetime import datetime
 from sqlalchemy.orm import relationship
 from database.db import Base
 
@@ -23,5 +24,5 @@ class User(Base):
     email = Column(String, unique=True, nullable=False)
     password = Column(Text, nullable=False)
     is_active = Column(Boolean, default=False, nullable=False)
-    email_verified_at = Column(DateTime, nullable=False)
+    email_verified_at = Column(DateTime, default=datetime.utcnow)
     
