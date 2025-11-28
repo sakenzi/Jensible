@@ -188,4 +188,14 @@ class AuthRegisterWindow(QMainWindow):
         sign_up_button.clicked.connect(self.on_register_button_clicked)
 
     def on_register_button_clicked(self):
-        succes, message = self.controller
+        full_name = self.fullname_input.text().strip()
+        email = self.email_input.text().strip()
+        password = self.password_input.text()
+
+        success, message = self.controller.handle_register(full_name, email, password)
+
+        if success:
+            self.app_manager.show_verification_window(email)  
+            self.hide()
+        else:
+            print(f"Ошибка регистрации: {message}")

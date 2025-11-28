@@ -12,7 +12,7 @@ class AuthRegisterData:
         }
     
 
-class VerificationEmailData:
+class AuthVerificationEmailData:
     def __init__(self, email, code):
         self.email = email
         self.code = code
@@ -24,7 +24,7 @@ class VerificationEmailData:
         }
     
 
-class LoginData:
+class AuthLoginData:
     def __init__(self, email, password):
         self.email = email
         self.password = password
