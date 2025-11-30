@@ -24,11 +24,14 @@ from controllers.auth_controller import AuthWindowController
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
 
-class AuthVerificationEmail:
+class AuthVerificationEmail(QMainWindow):
     def __init__(self, app_manager):
+        super().__init__()
         self.app_manager = app_manager
+        self.email = None
         self._setup_window()
         self._setup_layouts()
+        self._setup_phone_panel()
         self._setup_auth_login_panel()
         self.controller = AuthWindowController()
 
@@ -62,8 +65,31 @@ class AuthVerificationEmail:
         self.left_layout.addWidget(phone_label)
 
     def _setup_auth_login_panel(self):
+        self._email_label()
+        self._email_input()
         self._code_label()
         self._code_input()
+
+    def _email_label(self):
+        email_widget = QWidget()
+        email_widget.setStyleSheet(Styles["speech_label"])
+        email_layout = QHBoxLayout()
+        email_widget.setLayout(email_layout)
+        self.right_layout.addWidget(email_widget)
+
+        self.email_label = QLabel("Введите почту повторно")
+        self.email_label.setStyleSheet(Styles["login_label"])
+        self.email_label.setMaximumWidth(1000)
+        email_layout.addWidget(self.email_label)
+
+        self.right_layout.setStretch(4, 0)
+
+    def _email_input(self):
+        email_input_widget = QWidget()
+        email_input_widget.setStyleSheet(Styles["speech_label"])
+        email_input_layout = QHBoxLayout()
+        email_input_widget.setLayout(email_input_layout)
+        self.right_layout.addWidget(email_input_widget)
 
     def _code_label(self):
         code_widget = QWidget()
@@ -108,6 +134,11 @@ class AuthVerificationEmail:
         self.right_layout.setStretch(8, 1)
     
         sign_up_button.clicked.connect(self.on_verification_button_clicked)
+
+    def set_email(self, email):
+        self.email = email
+        self.email_label.setText(f"Код отправлен на: {email}")  
+        print(f"Окно верификации: код нужно ввести для {email}")
 
     def on_verification_button_clicked(self):
         success, message = self.controller.handle_verification_email(

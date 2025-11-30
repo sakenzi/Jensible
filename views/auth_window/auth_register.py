@@ -30,6 +30,7 @@ class AuthRegisterWindow(QMainWindow):
         self.app_manager = app_manager
         self._setup_window()
         self._setup_layouts()
+        self._setup_phone_panel()
         self._setup_auth_login_panel()
         self.controller = AuthWindowController()
 
@@ -69,7 +70,8 @@ class AuthRegisterWindow(QMainWindow):
         self._email_label()
         self._email_input()
         self._password_label()
-        self._email_input()
+        self._password_input()
+        self._sign_up()
         
     def _welcome_speech(self):
         speech_widget = QWidget()
@@ -106,11 +108,11 @@ class AuthRegisterWindow(QMainWindow):
         fullname_input_widget.setLayout(fullname_input_layout)
         self.right_layout.addWidget(fullname_input_widget)
 
-        fullname_input = QLineEdit()
-        fullname_input.setPlaceholderText("Введите имю пользователя ...")
-        fullname_input.setStyleSheet(Styles["login_input"])
-        fullname_input.setMaximumWidth(1000)
-        fullname_input_layout.addWidget(fullname_input)
+        self.fullname_input = QLineEdit()
+        self.fullname_input.setPlaceholderText("Введите имю пользователя ...")
+        self.fullname_input.setStyleSheet(Styles["login_input"])
+        self.fullname_input.setMaximumWidth(1000)
+        fullname_input_layout.addWidget(self.fullname_input)
 
         self.right_layout.setStretch(3, 0)
 
@@ -135,11 +137,11 @@ class AuthRegisterWindow(QMainWindow):
         email_input_widget.setLayout(email_input_layout)
         self.right_layout.addWidget(email_input_widget)
 
-        email_input = QLineEdit()
-        email_input.setPlaceholderText("Введите почту ...")
-        email_input.setStyleSheet(Styles["login_input"])
-        email_input.setMaximumWidth(1000)
-        email_input_layout.addWidget(email_input)
+        self.email_input = QLineEdit()
+        self.email_input.setPlaceholderText("Введите почту ...")
+        self.email_input.setStyleSheet(Styles["login_input"])
+        self.email_input.setMaximumWidth(1000)
+        email_input_layout.addWidget(self.email_input)
 
         self.right_layout.setStretch(5, 0)
 
@@ -164,11 +166,11 @@ class AuthRegisterWindow(QMainWindow):
         password_input_widget.setLayout(password_input_layout)
         self.right_layout.addWidget(password_input_widget)
 
-        password_input = QLineEdit()
-        password_input.setPlaceholderText("Придумайте пароль ...")
-        password_input.setStyleSheet(Styles["login_input"])
-        password_input.setMaximumWidth(1000)
-        password_input_layout.addWidget(password_input)
+        self.password_input = QLineEdit()
+        self.password_input.setPlaceholderText("Придумайте пароль ...")
+        self.password_input.setStyleSheet(Styles["login_input"])
+        self.password_input.setMaximumWidth(1000)
+        password_input_layout.addWidget(self.password_input)
 
         self.right_layout.setStretch(7, 0)
 

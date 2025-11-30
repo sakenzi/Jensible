@@ -57,15 +57,15 @@ class AuthWindowController:
             return False, "Некорректный ответ от сервера"
 
         status_code = json_response.get("status_code")
-        message = json_response.get("message", "Неизвестная ошибка")
 
-        if status_code == 0:
-            print("Успешная регистрация (письмо отправлено)")
-            print(f"Сообщение от сервера: {message}")
+        if response.status_code in [200, 201] and (status_code in [0, None]):
+            message = json_response.get("message", "Регистрация успешна")
+            print("Регистрация прошла успешно!")
             return True, message
-        else:
-            print(f"Ошибка регистрации: {message}")
-            return False, message
+        
+        message = json_response.get("message", "Неизвестная ошибка")
+        print(f"Ошибка от сервера: {message}")
+        return False, message
         
     def handle_verification_email(self, email, code):
         if not email or not code:
